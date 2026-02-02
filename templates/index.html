@@ -29,18 +29,27 @@
       padding: 1rem;
     }
 
-    .question, h1 {
-      font-size: clamp(2rem, 5vw, 4rem); /* scalable font */
+    .question {
+      font-size: clamp(2rem, 5vw, 4rem);
       color: #b30059;
       text-shadow: 0 0 10px rgba(255,255,255,0.8);
-      white-space: nowrap; /* prevent wrapping */
+      white-space: nowrap; /* keep first page single line */
     }
+
+    h1 {
+      font-size: clamp(2rem, 5vw, 4rem);
+      color: #b30059;
+      text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      white-space: normal; /* allow wrapping on Yes page */
+    }
+
 
     .buttons {
       display: flex;
       gap: 2vw; /* proportional spacing */
       justify-content: center;
       flex-wrap: nowrap;
+      margin-left: -100px;
     }
 
     #yes, #no {
@@ -71,13 +80,15 @@
       z-index: 9999;
     }
 
-    .please-gif, .minion-gif {
-      width: clamp(250px, 30vw, 700px); /* responsive size */
+    .please-gif {
+      width: clamp(400px, 50vw, 1000px); /* responsive size */
       display: block;
       margin: 0 auto;
       border-radius: 12px;
       box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
     }
+
+
 
     .heart {
       position: fixed;
@@ -142,12 +153,17 @@
       gif.src = '2.-minions-clapping-and-super-excited-gif.gif';
       gif.alt = 'Minions celebrating';
       gif.className = 'minion-gif';
+      gif.style.width = "clamp(500px, 60vw, 1200px)"; // bigger than the first gif
+      gif.style.display = "block";
+      gif.style.margin = "0 auto";
+      gif.style.borderRadius = "16px";
+      gif.style.boxShadow = "0 0 30px rgba(255, 182, 193, 0.9)";
       gif.style.animation = 'bounce 0.1s infinite';
       container.appendChild(gif);
     });
 
     // No button movement (advanced runaway logic)
-    const SAFE_DIST = 130;  // distance to move away from cursor
+    const SAFE_DIST = 400;  // distance to move away from cursor
     const TOUCH_MARGIN = 50; // bigger margin for smoother response
     const PADDING = 8;       // screen padding
 
