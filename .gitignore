@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+venv/
+.env
+.env.*
+.venv/
+
+# Editor files
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# OS files
+Thumbs.db
+desktop.ini
+
+# Node/npm (if ever used)
+node_modules/
+
+# Zip bundles
+*.zip
+
+# Built files
+dist/
+build/
