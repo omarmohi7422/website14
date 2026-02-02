@@ -12,7 +12,6 @@
       overflow: hidden;
     }
 
-    /* Romantic gradient background */
     body {
       background: linear-gradient(135deg, #ff9a9e, #fecfef, #fad0c4);
       display: flex;
@@ -37,6 +36,7 @@
       display: flex;
       gap: 1.5rem;
       justify-content: center;
+      margin-left: -80px; /* slightly shift left */
     }
 
     #yes {
@@ -66,24 +66,26 @@
       position: fixed;
       transition: left 0.08s ease, top 0.08s ease;
       z-index: 9999;
+      cursor: default;
     }
 
     h1 {
       text-align: center;
       font-size: 5rem;
-      margin-top: 20vh;
       color: #ff3366;
       text-shadow: 0 0 20px pink;
+      margin: 0;
     }
 
     .please-gif {
-      width: 180px;
-      margin-bottom: 1.5rem;
+      width: 500px; /* bigger */
+      display: block; /* centers image horizontally */
+      margin: 0 auto 2rem auto; /* top 0, bottom 2rem, auto sides */
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
     }
 
-    /* Floating hearts */
+
     .heart {
       position: fixed;
       bottom: -20px;
@@ -103,28 +105,8 @@
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
     }
-
   </style>
-
 </head>
-
-<script>
-  function createHeart() {
-    const heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤";
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.fontSize = (Math.random() * 20 + 15) + "px";
-    heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
-    document.body.appendChild(heart);
-
-    setTimeout(() => heart.remove(), 7000);
-  }
-
-  setInterval(createHeart, 300);
-</script>
-
-
 <body>
   <div class="container">
     <div class="question">Mimi, will you be my valentine? ❤️😭🥺</div>
@@ -138,52 +120,69 @@
   </div>
 
   <script>
+    // Floating hearts
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerHTML = "❤";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+      heart.style.animationDuration = (Math.random() * 3 + 4) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 7000);
+    }
+    setInterval(createHeart, 300);
+
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
 
     yesBtn.addEventListener('click', () => {
       document.body.innerHTML = '';
 
-      // Create a centered container
+      // Centered container
       const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.flexDirection = 'column';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+      container.style.height = '100vh';
       container.style.textAlign = 'center';
-      container.style.marginTop = '20vh'; // push it down a bit like your previous h1
       document.body.appendChild(container);
 
-      // Create h1
+      // H1
       const h = document.createElement('h1');
-      h.textContent = 'YAYYY 😍❤️ I LOVE YOUUU 🤪🤪😍';
-      h.style.marginBottom = '2rem'; // space between text and gif
+      h.textContent = 'YAYYY 😍❤️ I LOVE YOUUU 🤪😍';
+      h.style.marginBottom = '2rem';
       container.appendChild(h);
 
-      // Create gif
+      // Bouncing Minions GIF
       const gif = document.createElement('img');
       gif.src = '2.-minions-clapping-and-super-excited-gif.gif';
       gif.alt = 'Minions celebrating';
-      gif.style.width = '250px';
+      gif.style.width = '700px';
+      gif.style.display = 'block'; // ensures horizontal centering
+      gif.style.margin = '0 auto'; // centers it
       gif.style.borderRadius = '16px';
-      gif.style.boxShadow = '0 0 25px rgba(255, 182, 193, 0.9)';
+      gif.style.boxShadow = '0 0 30px rgba(255, 182, 193, 0.9)';
       gif.style.animation = 'bounce 0.15s infinite';
+
       container.appendChild(gif);
     });
 
-
-    // Settings
-    const SAFE_DIST = 100; // fallback distance used when relocating the No button
-    const TOUCH_MARGIN = 6; // px tolerance: move only when cursor actually touches the No button (small margin)
-    const PADDING = 8;     // screen padding so the button isn't flush to the edge
+    // No button movement
+    const SAFE_DIST = 120;  // distance to move away from cursor
+    const TOUCH_MARGIN = 12; // bigger margin for smoother response
+    const PADDING = 8;
 
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
-    // Try to place No somewhere in viewport such that its center is at least SAFE_DIST away from (cx, cy)
     function placeNoAwayFrom(cx, cy) {
       const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      const btnW = noBtn.offsetWidth || 80;
-      const btnH = noBtn.offsetHeight || 36;
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
 
-      // Try a number of random positions first
-      for (let i = 0; i < 40; i++) {
+      for (let i = 0; i < 50; i++) {
         const x = Math.random() * (vw - btnW - PADDING*2) + PADDING;
         const y = Math.random() * (vh - btnH - PADDING*2) + PADDING;
         const cx2 = x + btnW/2;
@@ -195,7 +194,7 @@
         }
       }
 
-      // Fallback: push it to the opposite side of the cursor
+      // fallback
       const rect = noBtn.getBoundingClientRect();
       const curCx = rect.left + rect.width/2;
       const curCy = rect.top + rect.height/2;
@@ -203,48 +202,34 @@
       let dy = curCy - cy || 1;
       const len = Math.hypot(dx, dy) || 1;
       dx /= len; dy /= len;
-      const distAway = Math.max(SAFE_DIST, Math.min(vw, vh) * 0.45);
-      let newCx = clamp(cx + dx * distAway, btnW/2 + PADDING, vw - btnW/2 - PADDING);
-      let newCy = clamp(cy + dy * distAway, btnH/2 + PADDING, vh - btnH/2 - PADDING);
+      const distAway = SAFE_DIST;
+      const newCx = clamp(cx + dx * distAway, btnW/2 + PADDING, vw - btnW/2 - PADDING);
+      const newCy = clamp(cy + dy * distAway, btnH/2 + PADDING, vh - btnH/2 - PADDING);
       noBtn.style.left = (newCx - btnW/2) + 'px';
       noBtn.style.top = (newCy - btnH/2) + 'px';
     }
 
-    // If mouse actually touches (or slightly overlaps) the No button, move it away
-    document.addEventListener('mousemove', (e) => {
+    function checkCursor(e) {
       const rect = noBtn.getBoundingClientRect();
       const mx = e.clientX, my = e.clientY;
-      // Move only when the pointer is inside the button rect expanded by TOUCH_MARGIN
       if (mx >= rect.left - TOUCH_MARGIN && mx <= rect.right + TOUCH_MARGIN &&
           my >= rect.top - TOUCH_MARGIN && my <= rect.bottom + TOUCH_MARGIN) {
         placeNoAwayFrom(mx, my);
       }
-    }, { passive: true });
+    }
 
-    // If pointer somehow enters the No button, immediately move it (and recheck)
-    noBtn.addEventListener('mouseenter', (e) => {
-      placeNoAwayFrom(e.clientX, e.clientY);
-      // If it's still under the cursor, try again shortly after
-      setTimeout(() => {
-        if (document.elementFromPoint(e.clientX, e.clientY) === noBtn) placeNoAwayFrom(e.clientX, e.clientY);
-      }, 8);
-    });
-
-    // Also block direct attempts to press it
+    document.addEventListener('mousemove', checkCursor);
+    noBtn.addEventListener('mouseenter', checkCursor);
     noBtn.addEventListener('mousedown', (e) => { placeNoAwayFrom(e.clientX, e.clientY); e.preventDefault(); });
-
-    // Touch devices: move on touchstart
-    noBtn.addEventListener('touchstart', (e) => {
-      const t = e.touches[0];
-      placeNoAwayFrom(t.clientX, t.clientY);
-      e.preventDefault();
+    noBtn.addEventListener('touchstart', (e) => { 
+      placeNoAwayFrom(e.touches[0].clientX, e.touches[0].clientY); 
+      e.preventDefault(); 
     }, { passive: false });
 
-    // Initialize: position No next to Yes, then ensure it's fixed
     window.addEventListener('load', () => {
       const yRect = yesBtn.getBoundingClientRect();
-      const btnW = noBtn.offsetWidth || 80;
-      const btnH = noBtn.offsetHeight || 36;
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
       let startX = yRect.right + 12;
       let startY = yRect.top;
       const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -254,25 +239,16 @@
       noBtn.style.left = startX + 'px';
       noBtn.style.top = startY + 'px';
       noBtn.style.position = 'fixed';
-      // Ensure Yes shows pointer and No doesn't mislead the user
-      yesBtn.style.cursor = 'pointer';
-      noBtn.style.cursor = 'default';
     });
 
     window.addEventListener('resize', () => {
-      // Keep No in bounds after resize
       const rect = noBtn.getBoundingClientRect();
       const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
       const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      const btnW = noBtn.offsetWidth || 80;
-      const btnH = noBtn.offsetHeight || 36;
-      let left = rect.left; let top = rect.top;
-      if (left + btnW > vw - PADDING) left = vw - btnW - PADDING;
-      if (top + btnH > vh - PADDING) top = vh - btnH - PADDING;
-      if (left < PADDING) left = PADDING;
-      if (top < PADDING) top = PADDING;
-      noBtn.style.left = left + 'px';
-      noBtn.style.top = top + 'px';
+      const btnW = noBtn.offsetWidth;
+      const btnH = noBtn.offsetHeight;
+      noBtn.style.left = clamp(rect.left, PADDING, vw - btnW - PADDING) + 'px';
+      noBtn.style.top = clamp(rect.top, PADDING, vh - btnH - PADDING) + 'px';
     });
   </script>
 </body>
