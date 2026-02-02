@@ -20,71 +20,64 @@
     }
 
     .container {
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      z-index: 2;
+      gap: 2rem;
+      padding: 1rem;
     }
 
-    .question {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
+    .question, h1 {
+      font-size: clamp(2rem, 5vw, 4rem); /* scalable font */
       color: #b30059;
       text-shadow: 0 0 10px rgba(255,255,255,0.8);
+      white-space: nowrap; /* prevent wrapping */
     }
 
     .buttons {
       display: flex;
-      gap: 1.5rem;
+      gap: 2vw; /* proportional spacing */
       justify-content: center;
-      margin-left: -80px; /* slightly shift left */
+      flex-wrap: nowrap;
+    }
+
+    #yes, #no {
+      padding: clamp(0.8rem, 1.5vw, 1.5rem) clamp(1.5rem, 3vw, 2rem);
+      font-size: clamp(1rem, 2vw, 1.5rem);
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, left 0.08s, top 0.08s;
+      white-space: nowrap;
     }
 
     #yes {
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      border-radius: 12px;
-      border: none;
       background: #ff4d6d;
       color: white;
-      cursor: pointer;
-      box-shadow: 0 0 15px rgba(255, 77, 109, 0.7);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     #yes:hover {
       transform: scale(1.1);
-      box-shadow: 0 0 25px rgba(255, 77, 109, 1);
+      box-shadow: 0 0 25px rgba(255, 77, 109, 0.8);
     }
 
     #no {
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
-      border-radius: 12px;
-      border: none;
       background: #888;
       color: white;
       position: fixed;
-      transition: left 0.08s ease, top 0.08s ease;
       z-index: 9999;
-      cursor: default;
     }
 
-    h1 {
-      text-align: center;
-      font-size: 5rem;
-      color: #ff3366;
-      text-shadow: 0 0 20px pink;
-      margin: 0;
-    }
-
-    .please-gif {
-      width: 500px; /* bigger */
-      display: block; /* centers image horizontally */
-      margin: 0 auto 2rem auto; /* top 0, bottom 2rem, auto sides */
+    .please-gif, .minion-gif {
+      width: clamp(250px, 30vw, 700px); /* responsive size */
+      display: block;
+      margin: 0 auto;
       border-radius: 12px;
-      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
+      box-shadow: 0 0 25px rgba(255, 182, 193, 0.8);
     }
-
 
     .heart {
       position: fixed;
@@ -110,9 +103,7 @@
 <body>
   <div class="container">
     <div class="question">Mimi, will you be my valentine? ❤️😭🥺</div>
-
     <img src="pretty-please-begging.gif" alt="Pretty please" class="please-gif">
-
     <div class="buttons">
       <button id="yes">Yes</button>
       <button id="no">No</button>
@@ -136,52 +127,39 @@
     const yesBtn = document.getElementById('yes');
     const noBtn = document.getElementById('no');
 
+    // Yes button click
     yesBtn.addEventListener('click', () => {
       document.body.innerHTML = '';
-
-      // Centered container
       const container = document.createElement('div');
-      container.style.display = 'flex';
-      container.style.flexDirection = 'column';
-      container.style.alignItems = 'center';
-      container.style.justifyContent = 'center';
-      container.style.height = '100vh';
-      container.style.textAlign = 'center';
+      container.className = 'container';
       document.body.appendChild(container);
 
-      // H1
       const h = document.createElement('h1');
-      h.textContent = 'YAYYY 😍❤️ I LOVE YOUUU 🤪😍';
-      h.style.marginBottom = '2rem';
+      h.textContent = 'YAYYY 😍❤️ I LOVE YOUUU YA BASKOTY🤪😍';
       container.appendChild(h);
 
-      // Bouncing Minions GIF
       const gif = document.createElement('img');
       gif.src = '2.-minions-clapping-and-super-excited-gif.gif';
       gif.alt = 'Minions celebrating';
-      gif.style.width = '700px';
-      gif.style.display = 'block'; // ensures horizontal centering
-      gif.style.margin = '0 auto'; // centers it
-      gif.style.borderRadius = '16px';
-      gif.style.boxShadow = '0 0 30px rgba(255, 182, 193, 0.9)';
+      gif.className = 'minion-gif';
       gif.style.animation = 'bounce 0.1s infinite';
-
       container.appendChild(gif);
     });
 
-    // No button movement
+    // No button movement (advanced runaway logic)
     const SAFE_DIST = 130;  // distance to move away from cursor
     const TOUCH_MARGIN = 50; // bigger margin for smoother response
-    const PADDING = 8;
+    const PADDING = 8;       // screen padding
 
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
 
     function placeNoAwayFrom(cx, cy) {
-      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
       const btnW = noBtn.offsetWidth;
       const btnH = noBtn.offsetHeight;
 
+      // Try random positions first
       for (let i = 0; i < 50; i++) {
         const x = Math.random() * (vw - btnW - PADDING*2) + PADDING;
         const y = Math.random() * (vh - btnH - PADDING*2) + PADDING;
@@ -194,21 +172,23 @@
         }
       }
 
-      // fallback
+      // fallback: move opposite the cursor
       const rect = noBtn.getBoundingClientRect();
-      const curCx = rect.left + rect.width/2;
-      const curCy = rect.top + rect.height/2;
+      const curCx = rect.left + btnW/2;
+      const curCy = rect.top + btnH/2;
       let dx = curCx - cx || 1;
       let dy = curCy - cy || 1;
       const len = Math.hypot(dx, dy) || 1;
       dx /= len; dy /= len;
       const distAway = SAFE_DIST;
-      const newCx = clamp(cx + dx * distAway, btnW/2 + PADDING, vw - btnW/2 - PADDING);
-      const newCy = clamp(cy + dy * distAway, btnH/2 + PADDING, vh - btnH/2 - PADDING);
+      let newCx = clamp(cx + dx * distAway, btnW/2 + PADDING, vw - btnW/2 - PADDING);
+      let newCy = clamp(cy + dy * distAway, btnH/2 + PADDING, vh - btnH/2 - PADDING);
+
       noBtn.style.left = (newCx - btnW/2) + 'px';
       noBtn.style.top = (newCy - btnH/2) + 'px';
     }
 
+    // Event listeners
     function checkCursor(e) {
       const rect = noBtn.getBoundingClientRect();
       const mx = e.clientX, my = e.clientY;
@@ -226,30 +206,29 @@
       e.preventDefault(); 
     }, { passive: false });
 
+    // Initialize position
     window.addEventListener('load', () => {
       const yRect = yesBtn.getBoundingClientRect();
       const btnW = noBtn.offsetWidth;
       const btnH = noBtn.offsetHeight;
       let startX = yRect.right + 12;
       let startY = yRect.top;
-      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-      if (startX + btnW > vw - PADDING) startX = vw - btnW - PADDING;
-      if (startY + btnH > vh - PADDING) startY = vh - btnH - PADDING;
       noBtn.style.left = startX + 'px';
       noBtn.style.top = startY + 'px';
       noBtn.style.position = 'fixed';
     });
 
+    // Keep button inside viewport on resize
     window.addEventListener('resize', () => {
       const rect = noBtn.getBoundingClientRect();
-      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-      const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
       const btnW = noBtn.offsetWidth;
       const btnH = noBtn.offsetHeight;
       noBtn.style.left = clamp(rect.left, PADDING, vw - btnW - PADDING) + 'px';
       noBtn.style.top = clamp(rect.top, PADDING, vh - btnH - PADDING) + 'px';
     });
+
   </script>
 </body>
 </html>
