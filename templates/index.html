@@ -76,6 +76,13 @@
       text-shadow: 0 0 20px pink;
     }
 
+    .please-gif {
+      width: 180px;
+      margin-bottom: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+    }
+
     /* Floating hearts */
     .heart {
       position: fixed;
@@ -114,7 +121,10 @@
 
 <body>
   <div class="container">
-    <div class="question">Mimi, will you be my valentine? ❤️😭</div>
+    <div class="question">Mimi, will you be my valentine? ❤️😭🥺</div>
+
+    <img src="pretty-please-begging.gif" alt="Pretty please" class="please-gif">
+
     <div class="buttons">
       <button id="yes">Yes</button>
       <button id="no">No</button>
@@ -126,12 +136,24 @@
     const noBtn = document.getElementById('no');
 
     yesBtn.addEventListener('click', () => {
-      // Clear the screen and show "YAYYY ❤️ I LOVE YOUUU 💖"
       document.body.innerHTML = '';
+
       const h = document.createElement('h1');
       h.textContent = 'YAYYY ❤️ I LOVE YOUUU 💖';
       document.body.appendChild(h);
+
+      const gif = document.createElement('img');
+      gif.src = '2.-minions-clapping-and-super-excited-gif.gif';
+      gif.alt = 'Minions celebrating';
+      gif.style.width = '250px';
+      gif.style.display = 'block';
+      gif.style.margin = '2rem auto';
+      gif.style.borderRadius = '16px';
+      gif.style.boxShadow = '0 0 25px rgba(255, 182, 193, 0.9)';
+
+      document.body.appendChild(gif);
     });
+
 
     // Settings
     const SAFE_DIST = 100; // fallback distance used when relocating the No button
