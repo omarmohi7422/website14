@@ -6,17 +6,19 @@
   <title>Yes or No</title>
   <style>
     html, body { height: 100%; margin: 0; font-family: system-ui, Arial; }
-    .container { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .container { position: relative; height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; }
     .buttons { display: flex; align-items: center; gap: 1rem; }
     /* Make Yes clearly clickable */
     #yes { padding: 0.85rem 1.5rem; font-size: 1.1rem; border-radius: 8px; cursor: pointer; }
     /* No should be able to roam the whole viewport and avoid pointer hover */
     #no { padding: 0.85rem 1.5rem; font-size: 1.1rem; border-radius: 8px; position: fixed; transition: left 0.08s ease, top 0.08s ease; will-change: left, top; z-index: 9999; }
+    .question { text-align: center; font-size: 2rem; margin-bottom: 1rem; font-weight: 600; color: #222; text-transform: none; }
     h1 { text-align: center; font-size: 6rem; margin-top: 20vh; }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="question">will you be my valentines?</div>
     <div class="buttons">
       <button id="yes">Yes</button>
       <button id="no">No</button>
