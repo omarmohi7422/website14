@@ -37,6 +37,7 @@
       display: flex;
       gap: 1.5rem;
       justify-content: center;
+      margin-left: -100px; /* adjust this value to move left */
     }
 
     #yes {
@@ -146,8 +147,12 @@
 
       // Create a centered container
       const container = document.createElement('div');
+      container.style.display = 'flex';
+      container.style.flexDirection = 'column';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+      container.style.height = '100vh'; // full viewport height
       container.style.textAlign = 'center';
-      container.style.marginTop = '20vh'; // push it down a bit like your previous h1
       document.body.appendChild(container);
 
       // Create h1
