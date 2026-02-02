@@ -78,11 +78,13 @@
     }
 
     .please-gif {
-      width: 180px;
-      margin-bottom: 1.5rem;
+      width: 500px; /* bigger */
+      display: block; /* centers image horizontally */
+      margin: 0 auto 2rem auto; /* top 0, bottom 2rem, auto sides */
       border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 105, 180, 0.6);
+      box-shadow: 0 0 20px rgba(255, 105, 180, 0.8);
     }
+
 
     .heart {
       position: fixed;
@@ -157,10 +159,13 @@
       const gif = document.createElement('img');
       gif.src = '2.-minions-clapping-and-super-excited-gif.gif';
       gif.alt = 'Minions celebrating';
-      gif.style.width = '250px';
+      gif.style.width = '700px';
+      gif.style.display = 'block'; // ensures horizontal centering
+      gif.style.margin = '0 auto'; // centers it
       gif.style.borderRadius = '16px';
-      gif.style.boxShadow = '0 0 25px rgba(255, 182, 193, 0.9)';
+      gif.style.boxShadow = '0 0 30px rgba(255, 182, 193, 0.9)';
       gif.style.animation = 'bounce 0.15s infinite';
+
       container.appendChild(gif);
     });
 
