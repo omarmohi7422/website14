@@ -164,14 +164,14 @@
       gif.style.margin = '0 auto'; // centers it
       gif.style.borderRadius = '16px';
       gif.style.boxShadow = '0 0 30px rgba(255, 182, 193, 0.9)';
-      gif.style.animation = 'bounce 0.15s infinite';
+      gif.style.animation = 'bounce 0.1s infinite';
 
       container.appendChild(gif);
     });
 
     // No button movement
-    const SAFE_DIST = 120;  // distance to move away from cursor
-    const TOUCH_MARGIN = 12; // bigger margin for smoother response
+    const SAFE_DIST = 130;  // distance to move away from cursor
+    const TOUCH_MARGIN = 50; // bigger margin for smoother response
     const PADDING = 8;
 
     function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
